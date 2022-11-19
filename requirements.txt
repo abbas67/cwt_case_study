@@ -1,0 +1,6 @@
+nltk
+spacy
+pandas
+sklearn
+flask
+sqlalchemy
