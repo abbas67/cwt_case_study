@@ -4,7 +4,7 @@ import unittest
 import pandas as pd
 from sqlalchemy import create_engine
 
-from cwt_case_study.db_utils import query_reviews, READ_SQL, create_new_review, CREATE_SQL, delete_reviews, DELETE_SQL
+from cwt_case_study.db_utils import READ_SQL, CREATE_SQL, DELETE_SQL, READ, execute_query, CREATE, DELETE
 from review_server import app
 
 app.testing = True
@@ -44,10 +44,10 @@ class TestReviewServer(unittest.TestCase):
                          'DivisionName': 'division_2', 'DepartmentName': 'department_2', 'ClassName': 'class_2'}
                         ]
 
-            actual = query_reviews(dao, READ_SQL, clothing_id=1)
+            actual = execute_query(dao, READ_SQL, READ, clothing_id=1)
             self.assertEqual(expected, actual)
 
-            actual = query_reviews(dao, READ_SQL, clothing_id=4)
+            actual = execute_query(dao, READ_SQL, READ,  clothing_id=4)
             self.assertEqual([], actual)
 
     def test_create_review(self):
@@ -58,18 +58,18 @@ class TestReviewServer(unittest.TestCase):
                            'Rating': 1, 'RecommendedIND': 1, 'PositiveFeedbackCount': 1,
                            'DivisionName': 'division_1', 'DepartmentName': 'department_1', 'ClassName': 'class_1'}
 
-            create_new_review(dao, CREATE_SQL, **insert_data)
+            execute_query(dao, CREATE_SQL, CREATE, **insert_data)
             expected = [{'index': None, 'ClothingId': 5, 'Age': 21, 'Title': 'title_1', 'ReviewText': 'review_text_1',
                          'Rating': 1, 'RecommendedIND': 1, 'PositiveFeedbackCount': 1, 'DivisionName': 'division_1',
                          'DepartmentName': 'department_1', 'ClassName': 'class_1'}]
 
-            actual = query_reviews(dao, READ_SQL, clothing_id=5)
+            actual = execute_query(dao, READ_SQL, READ,  clothing_id=5)
             self.assertEqual(expected, actual)
 
     def test_delete_review(self):
 
         with self.mock_engine.connect() as dao:
 
-            delete_reviews(dao, DELETE_SQL, clothing_id=1)
-            actual = query_reviews(dao, READ_SQL, clothing_id=1)
+            execute_query(dao, DELETE_SQL, DELETE, clothing_id=1)
+            actual = execute_query(dao, READ_SQL, READ, clothing_id=1)
             self.assertEqual([], actual)

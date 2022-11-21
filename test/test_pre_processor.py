@@ -70,7 +70,7 @@ class TestPreProcessorSpacy(unittest.TestCase):
         result = pre_processor.remove_stop_words("foo bar are the is are")
         self.assertEqual("foo bar", result)
 
-    @unittest.skip("Issue with spacy lemmatisation")
+    @unittest.skip("Issue with spacy lemmatization")
     def test_get_lemma(self):
         pre_processor = SpacyPreProcessor()
         result = pre_processor.get_lemma("apples, oranges")

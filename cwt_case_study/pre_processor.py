@@ -33,26 +33,50 @@ class PreProcessor(ABC):
 
 
 class NltkPreProcessor(PreProcessor):
+    """
+    Preprocessor instance.
+    """
 
     def get_lemma(self, text):
+        """
+        Get lemma for each word.
+        :param text:
+        :return:
+        """
         return " ".join([WordNetLemmatizer().lemmatize(w) for w in text.split()])
 
     def remove_stop_words(self, text):
+        """
+        removes any stop words.
+        :param text:
+        :return:
+        """
         return" ".join([w for w in text.split() if w not in set(stopwords.words("english"))])
 
 
 class SpacyPreProcessor(PreProcessor):
-
+    """
+    Preprocessor instance.
+    """
     def __init__(self):
         super().__init__()
         self.nlp = spacy.load("en_core_web_sm", disable=["tok2vec", "textcat", "ner"])
 
     def get_lemma(self, text):
+        """
+        Get lemma for each word.
+        :param text:
+        :return:
+        """
         # TODO: Investigate why this isn't working.
         return ' '.join([str(token.lemma_) for token in self.nlp(text)])
 
     def remove_stop_words(self, text):
-
+        """
+        removes any stop words.
+        :param text:
+        :return:
+        """
         return ' '.join([str(token) for token in self.nlp(text) if not token.is_stop])
 
 
