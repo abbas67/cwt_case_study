@@ -6,7 +6,7 @@
 2. Run load_data.py. 
 3. run review_server.py
 
-Didn't have time to implement the inference endpoint but essentially, I would use the get_model function to get the model and reuse it as needed, by passing in lists of tuples into the predict_proba function.
+Didn't implement the inference endpoint, however, I would use the get_model function to get the model loaded into memory and reuse it as needed, by passing in lists of tuples into the predict_proba function.
 
 **Endpoints**
 
